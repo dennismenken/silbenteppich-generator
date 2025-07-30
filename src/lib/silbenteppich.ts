@@ -66,16 +66,37 @@ function generateSilbenForKonsonant(
   return silben;
 }
 
-function getKonsonantenMitRekursion(startbuchstabe: string, seitenausrichtung: string): string[] {
+function getKonsonantenMitRekursion(startbuchstabe: string, seitenausrichtung: string, zeilenReihenfolge: string): string[] {
+  // Zielanzahl Zeilen je nach Format
+  const zielZeilen = seitenausrichtung === 'quer' ? ZEILEN_QUERFORMAT : ZEILEN_HOCHFORMAT;
+  
+  // Wenn kein Startbuchstabe ausgewählt wurde, wähle zufällige Konsonanten
+  if (!startbuchstabe) {
+    const result: string[] = [];
+    const verfügbareKonsonanten = [...STANDARD_KONSONANTEN];
+    
+    for (let i = 0; i < zielZeilen; i++) {
+      const randomIndex = Math.floor(Math.random() * verfügbareKonsonanten.length);
+      result.push(verfügbareKonsonanten[randomIndex]);
+      // Entferne den ausgewählten Konsonanten, um Duplikate zu vermeiden
+      verfügbareKonsonanten.splice(randomIndex, 1);
+    }
+    
+    // Bei alphabetischer Reihenfolge sortieren wir die zufällig ausgewählten Konsonanten
+    if (zeilenReihenfolge === 'alphabetisch') {
+      result.sort();
+    }
+    
+    return result;
+  }
+  
+  // Bisherige Logik für den Fall mit Startbuchstabe
   const endIndex = STANDARD_KONSONANTEN.indexOf(startbuchstabe.toLowerCase());
   
   // Wenn Startbuchstabe nicht gefunden, verwende 'l' als Standard
   const gültigerEndIndex = endIndex === -1 
     ? STANDARD_KONSONANTEN.indexOf('l') 
     : endIndex;
-    
-  // Zielanzahl Zeilen je nach Format
-  const zielZeilen = seitenausrichtung === 'quer' ? ZEILEN_QUERFORMAT : ZEILEN_HOCHFORMAT;
   
   // Berechne den Startindex: gehe zielZeilen-1 Schritte zurück vom Endbuchstaben
   let startIndex = gültigerEndIndex - (zielZeilen - 1);
@@ -103,7 +124,7 @@ export function generateSilbenteppich(config: SilbenteppichConfig): Silbenteppic
     : [...STANDARD_VOKALE];
     
   // Verwende die neue Funktion mit Rekursion
-  const konsonanten = getKonsonantenMitRekursion(config.startbuchstabe, config.seitenausrichtung);
+  const konsonanten = getKonsonantenMitRekursion(config.startbuchstabe, config.seitenausrichtung, config.zeilenReihenfolge);
   
   const zeilen: SilbenteppichZeile[] = konsonanten.map(konsonant => {
     const aktuelleVokale = config.vokalReihenfolge === 'zufall' 
@@ -123,9 +144,12 @@ export function generateSilbenteppich(config: SilbenteppichConfig): Silbenteppic
     };
   });
   
-  const sortierteZeilen = config.zeilenReihenfolge === 'zufall'
-    ? shuffleArray(zeilen)
-    : zeilen;
+  // Bei "Kein Startbuchstabe" wurde die Reihenfolge bereits in getKonsonantenMitRekursion behandelt
+  const sortierteZeilen = !config.startbuchstabe
+    ? zeilen
+    : (config.zeilenReihenfolge === 'zufall'
+      ? shuffleArray(zeilen)
+      : zeilen);
   
   return {
     zeilen: sortierteZeilen,

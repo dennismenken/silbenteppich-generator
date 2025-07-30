@@ -83,7 +83,7 @@
           
           <!-- Buttons -->
           <div class="mt-6 pt-6 border-t border-border">
-            {#if config.vokalReihenfolge === 'zufall' || config.zeilenReihenfolge === 'zufall'}
+            {#if config.vokalReihenfolge === 'zufall' || config.zeilenReihenfolge === 'zufall' || !config.startbuchstabe}
               <div class="flex gap-4">
                 <button onclick={handlePrint} class="primary-button flex items-center gap-3 flex-1" style="flex: 2;">
                   <Printer size={20} />

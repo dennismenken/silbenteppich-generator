@@ -53,6 +53,7 @@
         Startbuchstabe
       </label>
       <select id="startbuchstabe" bind:value={config.startbuchstabe} class="select-field">
+        <option value="">Kein Startbuchstabe (zufällig)</option>
         {#each KONSONANTEN as konsonant}
           <option value={konsonant}>{konsonant.toUpperCase()}</option>
         {/each}
