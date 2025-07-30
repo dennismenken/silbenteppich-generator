@@ -51,7 +51,10 @@ RUN echo '[general]' > /sws.toml && \
 # Expose port
 EXPOSE 80
 
-# Health check endpoint
+# Install wget for healthcheck
+RUN apk add --no-cache wget
+
+# Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD wget --no-verbose --tries=1 --spider http://localhost/ || exit 1
 
