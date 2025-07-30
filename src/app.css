@@ -1,0 +1,484 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply print:shadow-none;
+  }
+  
+  html {
+    @apply scroll-smooth;
+  }
+  
+  body {
+    @apply bg-muted min-h-screen text-primary;
+    @apply print:bg-white print:text-black;
+  }
+}
+
+@layer components {
+  .primary-button {
+    @apply bg-primary text-white font-medium py-3 px-6 rounded-lg;
+    @apply shadow-subtle hover:shadow-moderate transition-all duration-200;
+    @apply hover:bg-primary/90 active:scale-95;
+  }
+  
+  .secondary-button {
+    @apply bg-surface border border-border text-primary font-medium py-2 px-4 rounded-lg;
+    @apply shadow-subtle hover:shadow-moderate transition-all duration-200;
+    @apply hover:bg-surface-muted active:scale-95;
+  }
+  
+  .refresh-button {
+    @apply bg-accent text-white font-medium p-2 rounded-lg;
+    @apply shadow-subtle hover:shadow-moderate transition-all duration-200;
+    @apply hover:bg-accent/90 active:scale-95;
+  }
+  
+  .card {
+    @apply bg-surface rounded-xl shadow-subtle border border-border;
+    @apply hover:shadow-moderate transition-all duration-200;
+  }
+  
+  .card-simple {
+    @apply bg-surface rounded-xl border border-border;
+    @apply transition-all duration-200;
+  }
+  
+  .select-field {
+    @apply w-full p-3 pr-10 border border-border rounded-lg bg-surface text-sm;
+    @apply focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all duration-200;
+    @apply text-ellipsis overflow-hidden whitespace-nowrap;
+    @apply appearance-none bg-no-repeat bg-right;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.75rem center;
+    background-size: 1.5em 1.5em;
+  }
+
+  /* Mobile Schriftgrößen für Silbenteppich-Vorschau */
+  @media (max-width: 768px) {
+    .screen-grid.landscape:not(.mit-umlaute) .screen-konsonant {
+      font-size: clamp(20px, 4.5vw, 28px);
+    }
+    .screen-grid.landscape:not(.mit-umlaute) .screen-silbe {
+      font-size: clamp(18px, 4vw, 24px);
+    }
+    
+    .screen-grid.landscape.mit-umlaute .screen-konsonant {
+      font-size: clamp(18px, 4vw, 24px);
+    }
+    .screen-grid.landscape.mit-umlaute .screen-silbe {
+      font-size: clamp(16px, 3.5vw, 22px);
+    }
+    
+    .screen-grid:not(.landscape):not(.mit-umlaute) .screen-konsonant {
+      font-size: clamp(18px, 3.5vw, 22px);
+    }
+    .screen-grid:not(.landscape):not(.mit-umlaute) .screen-silbe {
+      font-size: clamp(16px, 3vw, 20px);
+    }
+    
+    .screen-grid:not(.landscape).mit-umlaute .screen-konsonant {
+      font-size: clamp(16px, 3vw, 20px);
+    }
+    .screen-grid:not(.landscape).mit-umlaute .screen-silbe {
+      font-size: clamp(14px, 2.5vw, 18px);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .screen-grid.landscape:not(.mit-umlaute) .screen-konsonant {
+      font-size: clamp(16px, 3.5vw, 22px);
+    }
+    .screen-grid.landscape:not(.mit-umlaute) .screen-silbe {
+      font-size: clamp(14px, 3vw, 18px);
+    }
+    
+    .screen-grid.landscape.mit-umlaute .screen-konsonant {
+      font-size: clamp(14px, 3vw, 18px);
+    }
+    .screen-grid.landscape.mit-umlaute .screen-silbe {
+      font-size: clamp(12px, 2.5vw, 16px);
+    }
+    
+    .screen-grid:not(.landscape):not(.mit-umlaute) .screen-konsonant {
+      font-size: clamp(14px, 2.5vw, 18px);
+    }
+    .screen-grid:not(.landscape):not(.mit-umlaute) .screen-silbe {
+      font-size: clamp(12px, 2vw, 16px);
+    }
+    
+    .screen-grid:not(.landscape).mit-umlaute .screen-konsonant {
+      font-size: clamp(12px, 2vw, 16px);
+    }
+    .screen-grid:not(.landscape).mit-umlaute .screen-silbe {
+      font-size: clamp(10px, 1.8vw, 14px);
+    }
+  }
+  
+  .silbe-box {
+    @apply bg-surface border border-border;
+    @apply rounded-lg font-medium transition-all duration-200;
+    @apply hover:bg-surface-muted hover:border-accent/50;
+    @apply print:shadow-none print:border print:border-gray-300 print:bg-white;
+  }
+  
+  .konsonant-box {
+    @apply bg-primary text-white font-semibold;
+    @apply rounded-lg;
+    @apply print:bg-gray-100 print:text-black print:border print:border-gray-400;
+  }
+}
+
+@media print {
+  /* @page rules are now set dynamically via JavaScript in handlePrint() */
+  
+  .print-hidden {
+    display: none !important;
+  }
+  
+  .print-only {
+    display: block !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+  }
+
+  /* Print header for configuration display */
+  .print-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4mm;
+    padding-bottom: 1mm;
+    border-bottom: 1px solid #cbd5e1;
+  }
+
+  .print-header h1 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+    color: #0f172a;
+  }
+
+  .print-header .config-info {
+    font-size: 12px;
+    color: #64748b;
+    text-align: right;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+  
+  /* Print font handling */
+  .font-geist .print-grid,
+  .font-geist .silbe-box,
+  .font-geist .konsonant-box {
+    font-family: 'Geist', system-ui, sans-serif !important;
+  }
+  
+  .font-andika .print-grid,
+  .font-andika .silbe-box,
+  .font-andika .konsonant-box {
+    font-family: 'Andika', system-ui, sans-serif !important;
+  }
+  
+
+  
+  * {
+    box-shadow: none !important;
+  }
+  
+  /* Optimized grid layout for equalized boxes */
+  .print-grid {
+    width: 100%;
+    height: calc(100vh - 15mm); /* Available height minus compact header, no footer */
+    display: grid;
+    gap: 2mm;
+    page-break-inside: avoid;
+  }
+
+  /* Portrait: 9 rows layout */
+  .print-grid:not(.landscape) {
+    grid-template-rows: repeat(9, 1fr);
+    max-height: calc(297mm - 40mm); /* A4 height minus margins and header, no footer */
+  }
+
+  /* Landscape: 6 rows layout */
+  .print-grid.landscape {
+    grid-template-rows: repeat(6, 1fr);
+    max-height: calc(210mm - 40mm); /* A4 width as height minus margins and header, no footer */
+  }
+  
+  .print-row {
+    display: grid;
+    grid-template-columns: 1fr 6fr; /* Konsonant takes 1 part, Silben take 6 parts */
+    gap: 2mm;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .print-konsonant {
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: black !important;
+    /* Font size will be calculated dynamically */
+  }
+  
+  .print-silben-container {
+    display: grid;
+    gap: 1.5mm;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    align-items: stretch;
+    height: 100%;
+  }
+  
+  .print-silbe {
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black !important;
+    /* Font size will be calculated dynamically */
+    min-width: 0;
+    height: 100%;
+  }
+  
+  /* Dynamic font sizing based on format and umlaute - VERDOPPELT */
+  
+  /* Landscape mode (6 rows) - Größte Schrift */
+  .print-grid.landscape:not(.mit-umlaute) .print-konsonant {
+    font-size: clamp(36px, 8vw, 52px);
+  }
+  .print-grid.landscape:not(.mit-umlaute) .print-silbe {
+    font-size: clamp(32px, 7vw, 44px);
+  }
+
+  /* Landscape mit Umlauten - Etwas kleiner */
+  .print-grid.landscape.mit-umlaute .print-konsonant {
+    font-size: clamp(32px, 7.2vw, 46px);
+  }
+  .print-grid.landscape.mit-umlaute .print-silbe {
+    font-size: clamp(28px, 6.4vw, 40px);
+  }
+
+  /* Portrait mode (9 rows) - Kleiner */
+  .print-grid:not(.landscape):not(.mit-umlaute) .print-konsonant {
+    font-size: clamp(30px, 6.4vw, 40px);
+  }
+  .print-grid:not(.landscape):not(.mit-umlaute) .print-silbe {
+    font-size: clamp(26px, 5.6vw, 36px);
+  }
+
+  /* Portrait mit Umlauten - Kleinste Schrift */
+  .print-grid:not(.landscape).mit-umlaute .print-konsonant {
+    font-size: clamp(28px, 5.8vw, 36px);
+  }
+  .print-grid:not(.landscape).mit-umlaute .print-silbe {
+    font-size: clamp(24px, 5vw, 32px);
+  }
+
+  /* Geschlossene Silben + Umlaute: 10% kleiner */
+  /* Landscape geschlossen + Umlaute */
+  .print-grid.landscape.mit-umlaute.geschlossen .print-konsonant {
+    font-size: clamp(29px, 6.5vw, 41px);
+  }
+  .print-grid.landscape.mit-umlaute.geschlossen .print-silbe {
+    font-size: clamp(25px, 5.8vw, 36px);
+  }
+
+  /* Portrait geschlossen + Umlaute */
+  .print-grid:not(.landscape).mit-umlaute.geschlossen .print-konsonant {
+    font-size: clamp(25px, 5.2vw, 32px);
+  }
+  .print-grid:not(.landscape).mit-umlaute.geschlossen .print-silbe {
+    font-size: clamp(22px, 4.5vw, 29px);
+  }
+}
+
+/* Screen Grid Layout - Equalized boxes like print */
+.screen-grid {
+  width: 100%;
+  max-height: 70vh;
+  overflow-y: auto;
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+/* Portrait: 9 rows layout for screen */
+.screen-grid:not(.landscape) {
+  grid-template-rows: repeat(9, 1fr);
+  min-height: 500px;
+}
+
+/* Landscape: 6 rows layout for screen */
+.screen-grid.landscape {
+  grid-template-rows: repeat(6, 1fr);
+  min-height: 400px;
+}
+
+.screen-row {
+  display: grid;
+  grid-template-columns: 1fr 6fr; /* Same ratio as print */
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  min-height: 45px;
+}
+
+.screen-konsonant {
+  background-color: #f8fafc;
+  border: 2px solid #cbd5e1;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #0f172a;
+  transition: all 0.2s ease;
+}
+
+/* Desktop Screen font sizing - nur für größere Bildschirme */
+@media (min-width: 769px) {
+  /* Screen font sizing - Landscape ohne Umlaute - VERDOPPELT */
+  .screen-grid.landscape:not(.mit-umlaute) .screen-konsonant {
+    font-size: clamp(40px, 8.4vw, 56px);
+  }
+
+  /* Screen font sizing - Landscape mit Umlauten - VERDOPPELT */
+  .screen-grid.landscape.mit-umlaute .screen-konsonant {
+    font-size: clamp(36px, 7.6vw, 50px);
+  }
+
+  /* Screen font sizing - Portrait ohne Umlaute - VERDOPPELT */
+  .screen-grid:not(.landscape):not(.mit-umlaute) .screen-konsonant {
+    font-size: clamp(34px, 6.8vw, 44px);
+  }
+
+  /* Screen font sizing - Portrait mit Umlauten - VERDOPPELT */
+  .screen-grid:not(.landscape).mit-umlaute .screen-konsonant {
+    font-size: clamp(32px, 6.2vw, 40px);
+  }
+}
+
+.screen-konsonant:hover {
+  border-color: #3b82f6;
+  background-color: #f1f5f9;
+}
+
+.screen-silben-container {
+  display: grid;
+  gap: 4px;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  align-items: stretch;
+  height: 100%;
+}
+
+.screen-silbe {
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0f172a;
+  min-width: 0;
+  height: 100%;
+  transition: all 0.2s ease;
+}
+
+/* Desktop Screen Silben font sizing - nur für größere Bildschirme */
+@media (min-width: 769px) {
+  /* Screen Silben font sizing - Landscape ohne Umlaute - VERDOPPELT */
+  .screen-grid.landscape:not(.mit-umlaute) .screen-silbe {
+    font-size: clamp(36px, 7.6vw, 48px);
+  }
+
+  /* Screen Silben font sizing - Landscape mit Umlauten - VERDOPPELT */
+  .screen-grid.landscape.mit-umlaute .screen-silbe {
+    font-size: clamp(32px, 6.8vw, 44px);
+  }
+
+  /* Screen Silben font sizing - Portrait ohne Umlaute - VERDOPPELT */
+  .screen-grid:not(.landscape):not(.mit-umlaute) .screen-silbe {
+    font-size: clamp(30px, 6vw, 38px);
+  }
+
+  /* Screen Silben font sizing - Portrait mit Umlauten - VERDOPPELT */
+  .screen-grid:not(.landscape).mit-umlaute .screen-silbe {
+    font-size: clamp(28px, 5.4vw, 34px);
+  }
+
+  /* Screen: Geschlossene Silben + Umlaute: 10% kleiner */
+  /* Screen Landscape geschlossen + Umlaute */
+  .screen-grid.landscape.mit-umlaute.geschlossen .screen-konsonant {
+    font-size: clamp(32px, 6.8vw, 45px);
+  }
+  .screen-grid.landscape.mit-umlaute.geschlossen .screen-silbe {
+    font-size: clamp(29px, 6.1vw, 40px);
+  }
+
+  /* Screen Portrait geschlossen + Umlaute */
+  .screen-grid:not(.landscape).mit-umlaute.geschlossen .screen-konsonant {
+    font-size: clamp(29px, 5.6vw, 36px);
+  }
+  .screen-grid:not(.landscape).mit-umlaute.geschlossen .screen-silbe {
+    font-size: clamp(25px, 4.9vw, 31px);
+  }
+}
+
+.screen-silbe:hover {
+  border-color: #3b82f6;
+  background-color: #f8fafc;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Screen font handling for syllable components */
+.font-geist .screen-konsonant,
+.font-geist .screen-silbe {
+  font-family: 'Geist', system-ui, sans-serif;
+}
+
+.font-andika .screen-konsonant,
+.font-andika .screen-silbe {
+  font-family: 'Andika', system-ui, sans-serif;
+}
+
+/* Direct Tailwind font classes for screen and print */
+.font-andika {
+  font-family: 'Andika', system-ui, sans-serif !important;
+}
+
+.font-geist {
+  font-family: 'Geist', system-ui, sans-serif !important;
+}
+
+/* Ensure fonts work in print */
+@media print {
+  .font-andika {
+    font-family: 'Andika', system-ui, sans-serif !important;
+  }
+  
+  .font-geist {
+    font-family: 'Geist', system-ui, sans-serif !important;
+  }
+}
+
+
