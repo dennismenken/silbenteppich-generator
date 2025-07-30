@@ -4,6 +4,15 @@ import UnpluginFonts from 'unplugin-fonts/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
+  server: {
+    host: true, // erlaubt externe Hosts (ngrok)
+    strictPort: true,
+    hmr: {
+      protocol: 'wss',        // sicheres WebSocket über ngrok
+      clientPort: 443,        // Standard-HTTPS-Port
+    },
+    allowedHosts: ['.ngrok-free.app'] // keine Wildcard mit * nutzen
+  },
   plugins: [
     svelte(),
     UnpluginFonts({
