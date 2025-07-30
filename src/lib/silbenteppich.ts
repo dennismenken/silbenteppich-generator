@@ -4,6 +4,10 @@ const STANDARD_VOKALE = ['a', 'e', 'i', 'o', 'u'];
 const UMLAUTE = ['ä', 'ö', 'ü'];
 const STANDARD_KONSONANTEN = ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'r', 's', 't', 'v', 'w', 'z'];
 
+// Anzahl der Zeilen pro Seitenformat
+export const ZEILEN_QUERFORMAT = 6;
+export const ZEILEN_HOCHFORMAT = 9;
+
 export const DEFAULT_CONFIG: SilbenteppichConfig = {
   silbenstruktur: 'offen',
   seitenausrichtung: 'quer',
@@ -62,15 +66,35 @@ function generateSilbenForKonsonant(
   return silben;
 }
 
-function getKonsonanten(startbuchstabe: string, seitenausrichtung: string): string[] {
-  const startIndex = STANDARD_KONSONANTEN.indexOf(startbuchstabe.toLowerCase());
-  const verfügbareKonsonanten = startIndex === -1 
-    ? STANDARD_KONSONANTEN.slice(STANDARD_KONSONANTEN.indexOf('l'))
-    : STANDARD_KONSONANTEN.slice(startIndex);
+function getKonsonantenMitRekursion(startbuchstabe: string, seitenausrichtung: string): string[] {
+  const endIndex = STANDARD_KONSONANTEN.indexOf(startbuchstabe.toLowerCase());
+  
+  // Wenn Startbuchstabe nicht gefunden, verwende 'l' als Standard
+  const gültigerEndIndex = endIndex === -1 
+    ? STANDARD_KONSONANTEN.indexOf('l') 
+    : endIndex;
     
-  // Für Querformat: weniger Zeilen, für Hochformat: mehr Zeilen  
-  const maxZeilen = seitenausrichtung === 'quer' ? 8 : 15;
-  return verfügbareKonsonanten.slice(0, maxZeilen);
+  // Zielanzahl Zeilen je nach Format
+  const zielZeilen = seitenausrichtung === 'quer' ? ZEILEN_QUERFORMAT : ZEILEN_HOCHFORMAT;
+  
+  // Berechne den Startindex: gehe zielZeilen-1 Schritte zurück vom Endbuchstaben
+  let startIndex = gültigerEndIndex - (zielZeilen - 1);
+  
+  // Wenn der Startindex negativ wäre, verschiebe ihn zyklisch
+  if (startIndex < 0) {
+    startIndex = STANDARD_KONSONANTEN.length + startIndex;
+  }
+  
+  // Sammle die Konsonanten
+  const result: string[] = [];
+  let currentIndex = startIndex;
+  
+  for (let i = 0; i < zielZeilen; i++) {
+    result.push(STANDARD_KONSONANTEN[currentIndex % STANDARD_KONSONANTEN.length]);
+    currentIndex++;
+  }
+  
+  return result;
 }
 
 export function generateSilbenteppich(config: SilbenteppichConfig): SilbenteppichData {
@@ -78,13 +102,10 @@ export function generateSilbenteppich(config: SilbenteppichConfig): Silbenteppic
     ? [...STANDARD_VOKALE, ...UMLAUTE]
     : [...STANDARD_VOKALE];
     
-  const konsonanten = getKonsonanten(config.startbuchstabe, config.seitenausrichtung);
+  // Verwende die neue Funktion mit Rekursion
+  const konsonanten = getKonsonantenMitRekursion(config.startbuchstabe, config.seitenausrichtung);
   
-  // Mindestens 5 Zeilen, aber angepasst an Format
-  const minZeilen = 5;
-  const relevantKonsonanten = konsonanten.slice(0, Math.max(minZeilen, konsonanten.length));
-  
-  const zeilen: SilbenteppichZeile[] = relevantKonsonanten.map(konsonant => {
+  const zeilen: SilbenteppichZeile[] = konsonanten.map(konsonant => {
     const aktuelleVokale = config.vokalReihenfolge === 'zufall' 
       ? shuffleArray(vokale) 
       : vokale;

@@ -1,10 +1,12 @@
 <script lang="ts">
   import type { SilbenteppichData } from './types';
+  import { ZEILEN_QUERFORMAT, ZEILEN_HOCHFORMAT } from './silbenteppich';
 
   let { data }: { data: SilbenteppichData } = $props();
 
   const isLandscape = $derived(data.config.seitenausrichtung === 'quer');
   const showAllVowels = $derived(!isLandscape);
+  const maxZeilen = $derived(isLandscape ? ZEILEN_QUERFORMAT : ZEILEN_HOCHFORMAT);
 </script>
 
 <!-- Screen View -->
@@ -30,7 +32,7 @@
 
   <!-- Screen Grid Preview - Equalized boxes like print -->
   <div class="screen-grid" class:landscape={isLandscape} class:mit-umlaute={data.config.umlaute} class:geschlossen={data.config.silbenstruktur === 'geschlossen'}>
-    {#each data.zeilen.slice(0, isLandscape ? 6 : 9) as zeile}
+    {#each data.zeilen.slice(0, maxZeilen) as zeile}
       <div class="screen-row">
         <div class="screen-konsonant"
              class:font-andika={data.config.schriftart === 'andika'}
@@ -69,7 +71,7 @@
 
   <!-- Optimized grid layout for print -->
   <div class="print-grid" class:landscape={isLandscape} class:mit-umlaute={data.config.umlaute} class:geschlossen={data.config.silbenstruktur === 'geschlossen'}>
-    {#each data.zeilen.slice(0, isLandscape ? 6 : 9) as zeile}
+    {#each data.zeilen.slice(0, maxZeilen) as zeile}
       <div class="print-row print:break-inside-avoid">
         <div class="print-konsonant"
              class:font-andika={data.config.schriftart === 'andika'}
