@@ -90,13 +90,4 @@
       </div>
     {/each}
   </div>
-
-  <!-- Footer nur für Screen, nicht für Print -->
-  <div class="print-hidden text-center mt-6 text-xs text-gray-500" class:mt-3={isLandscape}>
-    <p>
-      Silbenteppich-Generator • 
-      {data.zeilen.length} Zeilen • 
-      5{data.config.umlaute ? ' + Umlaute' : ''} Vokale
-    </p>
-  </div>
 </div>

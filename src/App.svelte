@@ -38,6 +38,20 @@
           margin: 12mm;
           size: A4 ${isLandscape ? 'landscape' : 'portrait'};
         }
+        @page :first {
+          margin: 12mm;
+        }
+        @page :left {
+          margin: 0;
+        }
+        @page :right {
+          margin: 0;
+        }
+        html, body {
+          page-break-after: avoid !important;
+          page-break-before: avoid !important;
+          page-break-inside: avoid !important;
+        }
       }
     `;
     

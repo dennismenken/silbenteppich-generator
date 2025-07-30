@@ -134,12 +134,25 @@
 @media print {
   /* @page rules are now set dynamically via JavaScript in handlePrint() */
   
+  /* Prevent page breaks */
+  html, body {
+    height: 100vh !important;
+    max-height: 100vh !important;
+    overflow: hidden !important;
+  }
+  
   .print-hidden {
     display: none !important;
   }
   
   .print-only {
     display: block !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    overflow: hidden !important;
+    page-break-after: avoid !important;
+    page-break-before: avoid !important;
+    page-break-inside: avoid !important;
   }
   
   body {
@@ -200,19 +213,23 @@
     height: calc(100vh - 15mm); /* Available height minus compact header, no footer */
     display: grid;
     gap: 2mm;
-    page-break-inside: avoid;
+    page-break-inside: avoid !important;
+    page-break-after: avoid !important;
+    page-break-before: avoid !important;
   }
 
   /* Portrait: 9 rows layout */
   .print-grid:not(.landscape) {
     grid-template-rows: repeat(9, 1fr);
     max-height: calc(297mm - 40mm); /* A4 height minus margins and header, no footer */
+    page-break-inside: avoid !important;
   }
 
   /* Landscape: 6 rows layout */
   .print-grid.landscape {
     grid-template-rows: repeat(6, 1fr);
     max-height: calc(210mm - 40mm); /* A4 width as height minus margins and header, no footer */
+    page-break-inside: avoid !important;
   }
   
   .print-row {
@@ -221,6 +238,9 @@
     gap: 2mm;
     width: 100%;
     height: 100%;
+    page-break-inside: avoid !important;
+    page-break-after: avoid !important;
+    page-break-before: avoid !important;
   }
   
   .print-konsonant {
