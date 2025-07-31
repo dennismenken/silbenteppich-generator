@@ -13,6 +13,23 @@
     <meta name="description" content="Silbenteppich-Generator - Webapp zur Generierung von Silbenteppichen als Lesehilfe für Kinder im DIN A4-Format" />
     <title>Silbenteppich-Generator</title>
     
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="Silbenteppich-Generator" />
+    <meta property="og:description" content="Silbenteppiche online generieren: Kindgerechte Lesehilfe im DIN A4-Format für Lesetraining und Leseförderung. Druckoptimiert, responsive und perfekt für Leseübungen." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://silbenteppich.de/" />
+    <meta property="og:image" content="https://silbenteppich.de/images/silbenteppich-og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:site_name" content="Silbenteppich-Generator" />
+    
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Silbenteppich-Generator" />
+    <meta name="twitter:description" content="Silbenteppiche online generieren: Kindgerechte Lesehilfe im DIN A4-Format für Lesetraining und Leseförderung." />
+    <meta name="twitter:image" content="https://silbenteppich.de/images/silbenteppich-og.png" />
+    
     <!-- Fonts are now managed by unplugin-fonts -->
     
     <!-- Local fonts -->
@@ -55,7 +72,52 @@
     </style>
   </head>
   <body class="font-geist">
+    <noscript>
+      <div style="padding: 2rem; text-align: center; background: #fef2f2; color: #991b1b; font-family: 'Geist', system-ui, sans-serif;">
+        <p>Diese Anwendung benötigt JavaScript, um zu funktionieren. Bitte aktivieren Sie JavaScript in Ihrem Browser.</p>
+      </div>
+    </noscript>
+    
+    <!-- Static header for SEO and initial load -->
+    <header id="static-header" style="background: #ffffff; border-bottom: 1px solid #e5e7eb; padding: 3rem 1rem; text-align: center;">
+      <div style="max-width: 56rem; margin: 0 auto;">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+          <img 
+            src="/images/silbenteppich-generator.svg" 
+            alt="Silbenteppich-Generator Logo"
+            style="width: 4rem; height: 4rem;"
+          />
+          <h1 style="font-size: 2.5rem; font-weight: 600; color: #1a1a1a; font-family: 'Geist', system-ui, sans-serif; line-height: 1.2;">
+            Silbenteppich<br />Generator
+          </h1>
+        </div>
+        <p style="font-size: 1.25rem; color: #6b7280; font-family: 'Geist', system-ui, sans-serif;">
+          <strong>Silbenteppiche online generieren:</strong> Kindgerechte Lesehilfe im DIN A4‑Format für Lesetraining und Leseförderung. Druckoptimiert, responsive und perfekt für Leseübungen im Unterricht oder zu Hause.
+        </p>
+      </div>
+    </header>
+    
     <div id="app"></div>
+    
+    <script>
+      // Hide static header when app loads
+      const observer = new MutationObserver(function(mutations) {
+        const appContent = document.querySelector('#app > *');
+        if (appContent) {
+          const staticHeader = document.getElementById('static-header');
+          if (staticHeader) {
+            staticHeader.style.display = 'none';
+          }
+          observer.disconnect();
+        }
+      });
+      
+      observer.observe(document.getElementById('app'), {
+        childList: true,
+        subtree: false
+      });
+    </script>
+    
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
