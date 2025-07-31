@@ -84,7 +84,7 @@ public/
 - **Frontend**: Svelte 5 mit TypeScript
 - **Build Tool**: Vite
 - **Styling**: Vanilla CSS mit CSS Grid/Flexbox
-- **Container**: Docker mit Nginx
+- **Container**: Docker mit Static Web Server
 - **Node.js**: Version 20+
 
 ### Druckfunktionalität
@@ -98,7 +98,7 @@ public/
 1. **Einstellungen anpassen**: Wählen Sie Silbenstruktur, Format und andere Parameter
 2. **Vorschau prüfen**: Der Silbenteppich wird in Echtzeit generiert
 3. **Drucken**: Klicken Sie auf "Drucken (DIN A4)" für druckoptimierten Output
-4. **Alternative Ansichten**: Nutzen Sie den Button für Reduktionssilben
+4. **Alternative Ansichten**: Nutzen Sie den Button für Reduktionssilben (geplant)
 
 ## Konfiguration
 
