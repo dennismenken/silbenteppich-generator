@@ -1,0 +1,9 @@
+# Silbenteppich-Generator robots.txt
+# https://silbenteppich.de/
+
+# Allow all crawlers - it's a single page application
+User-agent: *
+Allow: /
+
+# Reference to AI-friendly content
+# See: /llms.txt

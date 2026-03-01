@@ -1,0 +1,43 @@
+# Silbenteppich-Generator
+
+> Ein kostenloser Online-Generator zur Erstellung von Silbenteppichen als Lesehilfe für Kinder. Erstellt druckoptimierte Leseübungen im DIN A4-Format für Grundschule und Leseförderung.
+
+Dieses Tool wurde entwickelt, um Lehrkräften und Eltern eine einfache Möglichkeit zu bieten, individuelle Silbenteppiche für das Lesetraining zu erstellen. Die generierten Silbenteppiche können direkt ausgedruckt und im Unterricht oder zu Hause verwendet werden.
+
+## Hauptfunktionen
+
+- **Anpassbare Silbenteppiche**: Wahl zwischen verschiedenen Vokalen (a, e, i, o, u) und deren Kombinationen
+- **Flexible Formate**: Querformat (6 Zeilen) oder Hochformat (9 Zeilen) für DIN A4
+- **Konsonanten-Auswahl**: Frei wählbarer Startbuchstabe oder zufällige Auswahl
+- **Sortieroptionen**: Alphabetische oder zufällige Anordnung der Zeilen
+- **Druckoptimiert**: Automatische Anpassung der Schriftgröße basierend auf Format und Vokalanzahl
+- **Responsive Design**: Funktioniert auf Desktop, Tablet und Smartphone
+
+## Technische Details
+
+- **Framework**: Svelte 5 mit TypeScript
+- **Styling**: Tailwind CSS
+- **Schriftarten**: Lokal gehostete Andika-Schrift (speziell für Leseanfänger)
+- **Deployment**: Docker-Container mit Static Web Server
+- **Open Source**: MIT-Lizenz
+
+## Pädagogischer Hintergrund
+
+Silbenteppiche sind eine bewährte Methode im Erstleseunterricht. Sie helfen Kindern:
+- Buchstaben zu Silben zu verbinden
+- Leseflüssigkeit zu entwickeln
+- Automatisierung beim Lesen zu fördern
+- Selbstvertrauen beim Lesen aufzubauen
+
+## Autor
+
+Entwickelt von Dennis Menken
+GitHub: https://github.com/dennismenken
+Webseite: https://dennismenken.de
+
+## Links
+
+[Hauptseite](https://silbenteppich.de/) — Direkt zum Silbenteppich-Generator
+[GitHub Repository](https://github.com/dennismenken/silbenteppich-generator) — Quellcode und Dokumentation
+[Impressum](https://silbenteppich.de/legal/imprint.md) — Rechtliche Informationen
+[Datenschutzerklärung](https://silbenteppich.de/legal/privacy.md) — Informationen zum Datenschutz
