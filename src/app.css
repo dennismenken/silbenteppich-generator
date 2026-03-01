@@ -242,6 +242,11 @@
     page-break-after: avoid !important;
     page-break-before: avoid !important;
   }
+
+  /* Cluster-Modus: breitere Konsonant-Spalte fuer mehrbuchstabige Konsonanten */
+  .print-row.cluster-mode {
+    grid-template-columns: 1.5fr 6fr;
+  }
   
   .print-konsonant {
     background-color: #f8fafc;
@@ -326,6 +331,22 @@
   .print-grid:not(.landscape).mit-umlaute.geschlossen .print-silbe {
     font-size: clamp(22px, 4.5vw, 29px);
   }
+
+  /* Cluster-Modus: kleinere Schrift fuer mehrbuchstabige Konsonanten */
+  .print-grid.cluster-mode .print-konsonant {
+    font-size: clamp(20px, 4.5vw, 32px);
+  }
+  .print-grid.cluster-mode .print-silbe {
+    font-size: clamp(18px, 4vw, 28px);
+  }
+
+  /* Cluster + Landscape */
+  .print-grid.landscape.cluster-mode .print-konsonant {
+    font-size: clamp(24px, 5.5vw, 36px);
+  }
+  .print-grid.landscape.cluster-mode .print-silbe {
+    font-size: clamp(22px, 5vw, 32px);
+  }
 }
 
 /* Screen Grid Layout - Equalized boxes like print */
@@ -360,6 +381,11 @@
   width: 100%;
   height: 100%;
   min-height: 45px;
+}
+
+/* Cluster-Modus: breitere Konsonant-Spalte fuer mehrbuchstabige Konsonanten */
+.screen-row.cluster-mode {
+  grid-template-columns: 1.5fr 6fr;
 }
 
 .screen-konsonant {
@@ -460,6 +486,22 @@
   }
   .screen-grid:not(.landscape).mit-umlaute.geschlossen .screen-silbe {
     font-size: clamp(25px, 4.9vw, 31px);
+  }
+
+  /* Screen: Cluster-Modus - kleinere Schrift fuer mehrbuchstabige Konsonanten */
+  .screen-grid.cluster-mode .screen-konsonant {
+    font-size: clamp(24px, 5vw, 36px);
+  }
+  .screen-grid.cluster-mode .screen-silbe {
+    font-size: clamp(22px, 4.5vw, 32px);
+  }
+
+  /* Screen: Cluster + Landscape */
+  .screen-grid.landscape.cluster-mode .screen-konsonant {
+    font-size: clamp(28px, 6vw, 40px);
+  }
+  .screen-grid.landscape.cluster-mode .screen-silbe {
+    font-size: clamp(26px, 5.5vw, 36px);
   }
 }
 
