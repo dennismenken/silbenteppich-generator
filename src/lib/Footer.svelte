@@ -78,10 +78,10 @@
       {/if}
     </div>
     
-    <div class="text-sm text-secondary flex items-center gap-2">
+    <div class="text-sm text-secondary flex flex-col items-center gap-1 md:flex-row md:gap-2">
       <span>Für einfaches Lernen. Kostenlos & Open Source</span>
-      <a href="https://github.com/dennismenken/silbenteppich-generator" 
-         target="_blank" 
+      <a href="https://github.com/dennismenken/silbenteppich-generator"
+         target="_blank"
          rel="noopener noreferrer"
          class="hover:text-primary transition-colors duration-200"
          title="Zum GitHub Repository">

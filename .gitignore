@@ -10,6 +10,8 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+build
+.svelte-kit
 *.local
 
 # Editor directories and files
@@ -24,8 +26,8 @@ dist-ssr
 *.sw?
 
 # Legal documents (add manually when needed)
-public/legal/imprint.md
-public/legal/privacy.md
+static/legal/imprint.md
+static/legal/privacy.md
 
 # Generated at build time
 src/lib/legal-availability.json

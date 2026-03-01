@@ -1,62 +1,61 @@
 # Build stage
-FROM node:24-alpine AS builder
+FROM node:24-slim AS builder
 
 WORKDIR /app
 
-# Copy package files
 COPY package*.json ./
-
-# Install all dependencies (including dev dependencies for build)
 RUN npm ci
 
-# Copy source code
 COPY . .
-
-# Build the application
 RUN npm run build
 
-# Production stage - using static-web-server
-FROM ghcr.io/static-web-server/static-web-server:2-alpine AS production
+# Production stage
+FROM node:24-slim AS production
 
-# Copy the built app
-COPY --from=builder /app/dist /public
+# Install Chromium system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libnss3 \
+    libatk1.0-0 \
+    libatk-bridge2.0-0 \
+    libcups2 \
+    libdrm2 \
+    libxkbcommon0 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxrandr2 \
+    libgbm1 \
+    libpango-1.0-0 \
+    libcairo2 \
+    libasound2 \
+    libxshmfence1 \
+    libgtk-3-0 \
+    libx11-xcb1 \
+    libxcb-dri3-0 \
+    fonts-liberation \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
 
-# Create configuration for static-web-server
-RUN echo '[general]' > /sws.toml && \
-    echo 'host = "0.0.0.0"' >> /sws.toml && \
-    echo 'port = 80' >> /sws.toml && \
-    echo 'root = "/public"' >> /sws.toml && \
-    echo 'log-level = "info"' >> /sws.toml && \
-    echo 'directory-listing = false' >> /sws.toml && \
-    echo '' >> /sws.toml && \
-    echo '[advanced]' >> /sws.toml && \
-    echo 'compression = true' >> /sws.toml && \
-    echo 'compression-level = "best"' >> /sws.toml && \
-    echo 'cache-control-headers = true' >> /sws.toml && \
-    echo '' >> /sws.toml && \
-    echo '[[advanced.headers]]' >> /sws.toml && \
-    echo 'source = "**/*.{js,css,woff2}"' >> /sws.toml && \
-    echo '[advanced.headers.headers]' >> /sws.toml && \
-    echo 'Cache-Control = "public, max-age=31536000, immutable"' >> /sws.toml && \
-    echo '' >> /sws.toml && \
-    echo '[[advanced.headers]]' >> /sws.toml && \
-    echo 'source = "**/*.html"' >> /sws.toml && \
-    echo '[advanced.headers.headers]' >> /sws.toml && \
-    echo 'Cache-Control = "no-cache"' >> /sws.toml && \
-    echo 'X-Frame-Options = "SAMEORIGIN"' >> /sws.toml && \
-    echo 'X-Content-Type-Options = "nosniff"' >> /sws.toml && \
-    echo '' >> /sws.toml && \
-    echo 'fallback = "/index.html"' >> /sws.toml
+WORKDIR /app
 
-# Expose port
-EXPOSE 80
+# Copy package files and install production dependencies + playwright
+COPY package*.json ./
+RUN npm ci --omit=dev
 
-# Install wget for healthcheck
-RUN apk add --no-cache wget
+# Install Playwright Chromium browser
+RUN npx playwright-chromium install chromium
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD wget --no-verbose --tries=1 --spider http://localhost/ || exit 1
+# Copy build output
+COPY --from=builder /app/build ./build
 
-# Run static-web-server
-CMD ["static-web-server", "--config-file", "/sws.toml"]
+# Copy static assets (fonts needed for PDF rendering)
+COPY --from=builder /app/static ./static
+
+EXPOSE 3000
+
+ENV NODE_ENV=production
+ENV PORT=3000
+
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
+    CMD wget --no-verbose --tries=1 --spider http://localhost:3000/ || exit 1
+
+CMD ["node", "build"]
